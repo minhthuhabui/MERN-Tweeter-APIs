@@ -1,0 +1,44 @@
+POST http://localhost:5000/api/v1/auth/register
+Content-Type: application/json
+
+{
+    "name": "User2504",
+    "email": "user2504@gmail.com",
+    "password": "123456"
+}
+
+
+###
+POST http://localhost:5000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "minhtung2504@gmail.com",
+    "password": "123456"
+}
+
+# Get Current User
+###
+Get http://localhost:5000/api/v1/auth/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDk4OTQxMDZmZjZmMDNiNzhiYzcwYzQiLCJpYXQiOjE2MjA4NzUyOTN9.8a7ADmpr73AA0FuKqqDl4K30b8P7w8Iaff9QDVREeTY
+
+###
+POST http://localhost:5000/api/v1/hello
+
+###
+POST http://localhost:5000/api/v1/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDk4OWIwYThmMTU5YjNjODQ1Y2Q2ZTIiLCJpYXQiOjE2MjEwNzQxNDZ9.U5KUleUloqxEpIxZRLsLM1kVXqi7xjB0kaCXoZ_-y1Y
+
+{
+    "content":"Hello, My name is Tung, I'm a engineer"
+}
+
+###
+GET http://localhost:5000/api/v1/posts
+
+
+###
+DELETE http://localhost:5000/api/v1/posts/609b54a221c36303207e9d67
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MDk4OTQxMDZmZjZmMDNiNzhiYzcwYzQiLCJpYXQiOjE2MjA3NTE0Nzh9.Pg5vwX1fLEDbVBAgyINskc5pwpj8haWxNirUBCxIVZA
