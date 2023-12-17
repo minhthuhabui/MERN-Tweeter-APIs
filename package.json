@@ -4,9 +4,9 @@
   "description": "Blog Project",
   "main": "server.js",
   "scripts": {
-    "nodemon": "nodemon server.js",
+    "nodemon": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "author": "Minh Tung",
   "license": "ISC",
