@@ -12,21 +12,23 @@ const cors = require("cors");
 const authRoute = require("./routes/authRoute");
 const postRoute = require("./routes/postRoute");
 
-// Import Error Handler
+// Import Middleware
+const { verifyToken } = require("./middlewares/verifyToken");
+const { refreshToken } = require("./middlewares/refreshToken");
 const { errorHandler } = require("./middlewares/errorHandler");
 
-const { register } = require("./controllers/authController");
 const app = express();
 
 // Cors
 app.use(cors());
 
-//Body Parser
+// Body Parser
 app.use(express.json());
 
-// Mount the route
+// Mount the routes
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/posts", postRoute);
+app.use("/api/v1/posts", verifyToken, postRoute);
+app.use("/api/v1/refresh-token", refreshToken); // Route for refreshing access tokens
 
 // Unhandled Route
 app.all("*", (req, res, next) => {
@@ -34,9 +36,11 @@ app.all("*", (req, res, next) => {
   err.statusCode = 404;
   next(err);
 });
+
+// Error handler middleware
 app.use(errorHandler);
 
-const port = process.env.APP_PORT;
+const port = process.env.APP_PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

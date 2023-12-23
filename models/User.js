@@ -19,21 +19,30 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password must be required"],
       minlength: [6, "Password must be at least 6 characters"],
     },
+    refreshToken: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
 
-// Hash password truoc khi luu vao database
-userSchema.pre("save", function (next) {
-  let user = this;
-  bcrypt.hash(user.password, 10, function (error, hash) {
-    if (error) {
-      return next(error);
-    } else {
-      user.password = hash;
-      next();
+// Hash password before saving to the database
+userSchema.pre("save", async function (next) {
+  try {
+    const user = this;
+
+    // Only hash the password if it has been modified (or is new)
+    if (!user.isModified("password")) {
+      return next();
     }
-  });
+
+    // Hash the password
+    const hash = await bcrypt.hash(user.password, 10);
+    user.password = hash;
+    next();
+  } catch (error) {
+    return next(error);
+  }
 });
 
 // Create model User

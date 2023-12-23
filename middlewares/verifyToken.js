@@ -1,24 +1,23 @@
 const jwt = require("jsonwebtoken");
 
 exports.verifyToken = (req, res, next) => {
-  // Access Authorization from req header
-  const Authorization = req.header("authorization");
-  if (!Authorization) {
-    const err = new Error("Unauthorized!");
-    err.statusCode = 400;
+  const authorization = req.header("authorization");
+
+  if (!authorization) {
+    const err = new Error("Unauthorized! Access token is missing.");
+    err.statusCode = 401;
     return next(err);
   }
 
-  // Get Token
-  // Bearer + token key(1asfassfaasas)
-  const token = Authorization.replace("Bearer ", "");
-  // console.log(token);
+  const token = authorization.replace("Bearer ", "");
 
-  //Verify token
-  const { userId } = jwt.verify(token, process.env.APP_SECRET);
-  // console.log(process.env.APP_SECRET);
-  // Assign req
-  req.user = { userId };
-
-  next();
+  try {
+    const { userId } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    req.user = { userId };
+    next();
+  } catch (error) {
+    const err = new Error("Invalid access token");
+    err.statusCode = 401;
+    return next(err);
+  }
 };

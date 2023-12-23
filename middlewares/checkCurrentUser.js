@@ -1,19 +1,16 @@
 const jwt = require("jsonwebtoken");
 
-exports.checkCurrentUser = (req, res, next) => {
-  // Access Authorization from header
-  const Authorization = req.header("authorization");
+exports.checkCurrentUser = async (req, res, next) => {
+  const authorization = req.header("authorization");
 
-  if (!Authorization) {
+  if (!authorization) {
     req.user = null;
     next();
   } else {
-    // Get token from Authorization
-    const token = Authorization.replace("Bearer ", "");
+    const token = authorization.replace("Bearer ", "");
 
-    // Verify token
     try {
-      const { userId } = jwt.verify(token, process.env.APP_SECRET);
+      const { userId } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
       req.user = { userId };
       next();
     } catch (error) {

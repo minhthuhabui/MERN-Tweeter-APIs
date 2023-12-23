@@ -1,5 +1,4 @@
 const express = require("express");
-
 const {
   getAllPosts,
   createOnePost,
@@ -11,8 +10,11 @@ const { verifyToken } = require("../middlewares/verifyToken");
 
 const Router = express.Router();
 
-Router.route("/").get(getAllPosts).post(verifyToken, createOnePost);
+// Public routes
+Router.route("/").get(getAllPosts);
 
+// Protected routes (require authentication)
+Router.route("/").post(verifyToken, createOnePost);
 Router.route("/:postId")
   .put(verifyToken, updateOnePost)
   .delete(verifyToken, deleteOnePost);
