@@ -14,7 +14,6 @@ const postRoute = require("./routes/postRoute");
 
 // Import Middleware
 const { verifyToken } = require("./middlewares/verifyToken");
-const { refreshToken } = require("./middlewares/refreshToken");
 const { errorHandler } = require("./middlewares/errorHandler");
 
 const app = express();
@@ -28,7 +27,6 @@ app.use(express.json());
 // Mount the routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/posts", verifyToken, postRoute);
-app.use("/api/v1/refresh-token", refreshToken); // Route for refreshing access tokens
 
 // Unhandled Route
 app.all("*", (req, res, next) => {
